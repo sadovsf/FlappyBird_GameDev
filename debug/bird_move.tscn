@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://wkgfx43u2l1e"]
+
+[ext_resource type="Script" path="res://debug/bird_move.gd" id="1_bs81m"]
+[ext_resource type="PackedScene" uid="uid://b5166fy40wm1c" path="res://actors/bird.tscn" id="2_2sv55"]
+
+[node name="BirdMoveDebug" type="Node2D"]
+script = ExtResource("1_bs81m")
+
+[node name="Bird" parent="." instance=ExtResource("2_2sv55")]
+position = Vector2(188, 114)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="Bird"]
+enable_node_path = NodePath("")
+
+[connection signal="screen_exited" from="Bird/VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
