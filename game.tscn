@@ -1,8 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxo6rnq4er1s"]
+[gd_scene load_steps=4 format=3 uid="uid://dxo6rnq4er1s"]
 
+[ext_resource type="Script" path="res://game.gd" id="1_3s7cg"]
 [ext_resource type="PackedScene" uid="uid://b5166fy40wm1c" path="res://actors/bird.tscn" id="1_7tuyi"]
+[ext_resource type="PackedScene" uid="uid://btkm73kl1m178" path="res://actors/world/background.tscn" id="1_lqpsl"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_3s7cg")
+game_speed = 100
+
+[node name="Background" parent="." instance=ExtResource("1_lqpsl")]
+position = Vector2(-12, 11)
+
+[node name="Pipes" type="Node2D" parent="."]
+clip_children = 1
 
 [node name="Bird" parent="." instance=ExtResource("1_7tuyi")]
 position = Vector2(57, 183)
+
+[node name="PipeBuildTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="GameDiffTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="PipeBuildTimer" to="." method="_on_pipe_build_timer_timeout"]
+[connection signal="timeout" from="GameDiffTimer" to="." method="_on_game_diff_timer_timeout"]

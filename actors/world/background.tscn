@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://btkm73kl1m178"]
+
+[ext_resource type="Script" path="res://actors/world/background.gd" id="1_aeyup"]
+[ext_resource type="Texture2D" uid="uid://d0wefdigv8g8b" path="res://assets/sprites/base.png" id="1_worau"]
+[ext_resource type="Texture2D" uid="uid://lmnlfo7yrwva" path="res://assets/sprites/background-day.png" id="2_nlpoq"]
+
+[node name="Background" type="Node2D"]
+script = ExtResource("1_aeyup")
+speed = -100
+
+[node name="Top" type="Parallax2D" parent="."]
+repeat_size = Vector2(288, 0)
+repeat_times = 2
+follow_viewport = false
+
+[node name="City" type="Sprite2D" parent="Top"]
+position = Vector2(423, 425)
+texture = ExtResource("2_nlpoq")
+
+[node name="Clouds" type="Sprite2D" parent="Top"]
+position = Vector2(422, -28)
+texture = ExtResource("2_nlpoq")
+flip_v = true
+
+[node name="Base" type="Parallax2D" parent="."]
+repeat_size = Vector2(336, 0)
+repeat_times = 2
+follow_viewport = false
+
+[node name="Ground" type="Sprite2D" parent="Base"]
+position = Vector2(497, 672)
+texture = ExtResource("1_worau")
