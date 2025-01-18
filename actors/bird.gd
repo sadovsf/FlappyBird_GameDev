@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+signal hit
+
 ## Velocity assigned when player flaps (in px/s)
 @export var fly_velocity :float = 300
 
@@ -8,6 +10,7 @@ var _teleport_pos = null
 
 
 func teleport(pos :Vector2):
+	self.position = pos
 	_teleport_pos = pos
 
 
@@ -22,5 +25,9 @@ func _integrate_forces(state):
 		self.linear_velocity = Vector2.UP * fly_velocity
 
 
-func _on_body_entered(body :Node2D):
-	print(body.name + " hit!")
+func _on_body_entered(_body :Node2D):
+	self.hit.emit()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	self.hit.emit()

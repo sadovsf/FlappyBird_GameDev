@@ -3,9 +3,10 @@ extends Node2D
 ## Předpřipravená scéna trubky pro její spawnování
 @onready var _pipe_scene := preload("res://actors/pipe.tscn")
 @onready var _screen_size :Vector2 = get_viewport().size
+@onready var _initial_bird_pos :Vector2 = $Bird.position
 
 ## Rychlost pohybu hry v px/s
-@export var game_speed :int = 30:
+@export var game_speed :int = 100:
 	set(new_val):
 		game_speed = new_val
 		if is_inside_tree():
@@ -21,6 +22,21 @@ var _pipe_hole_size = 200
 
 func _ready():
 	$Background.speed = -game_speed
+
+
+func start_game():
+	for pipe in $Pipes.get_children():
+		pipe.queue_free()
+	
+	self._reset_difficulty()
+	%GUI.on_game_started()
+	$Bird.visible = true
+	
+	await get_tree().create_timer(1).timeout
+	$Bird.process_mode = Node.PROCESS_MODE_INHERIT
+	$ScoreTimer.start()
+	$GameDiffTimer.start()
+	
 
 
 ## Přidá do scény trubku
@@ -60,7 +76,32 @@ func _on_pipe_build_timer_timeout():
 	spawn_pipe(-game_speed, offset, _pipe_hole_size)
 
 
+func _reset_difficulty():
+	_pipe_hole_size = 200
+	game_speed = 100
+
+
 func _on_game_diff_timer_timeout():
 	print("Difficulty increased")
 	_pipe_hole_size = max(_pipe_hole_size - 10, 50)
 	game_speed += 20
+
+
+func _on_gui_start_game():
+	self.start_game()
+
+
+func _on_score_timer_timeout():
+	%GUI.score += 1
+
+
+func _on_bird_hit():
+	%GUI.on_game_over()
+	$ScoreTimer.stop()
+	$Bird.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func _on_gui_restart_game():
+	$Bird.teleport(self._initial_bird_pos)
+	self.start_game()
+	
