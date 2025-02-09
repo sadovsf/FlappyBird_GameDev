@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxo6rnq4er1s"]
+[gd_scene load_steps=7 format=3 uid="uid://dxo6rnq4er1s"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_3s7cg"]
 [ext_resource type="PackedScene" uid="uid://b5166fy40wm1c" path="res://actors/bird.tscn" id="1_7tuyi"]
 [ext_resource type="PackedScene" uid="uid://btkm73kl1m178" path="res://actors/world/background.tscn" id="1_lqpsl"]
 [ext_resource type="PackedScene" uid="uid://uw6mqx58dvn7" path="res://GUI/gui.tscn" id="4_cp3lu"]
+[ext_resource type="AudioStream" uid="uid://dk24eu0t8gsoj" path="res://assets/audio/die.ogg" id="5_sk4c0"]
+[ext_resource type="AudioStream" uid="uid://hve73u2by5ww" path="res://assets/audio/retro-game-arcade-236133.mp3" id="6_5r7y4"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_3s7cg")
@@ -32,6 +34,13 @@ autostart = true
 wait_time = 10.0
 
 [node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="AudioDeath" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_sk4c0")
+
+[node name="AudioBackground" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_5r7y4")
+autoplay = true
 
 [connection signal="hit" from="Bird" to="." method="_on_bird_hit" flags=3]
 [connection signal="restart_game" from="CanvasLayer/GUI" to="." method="_on_gui_restart_game"]

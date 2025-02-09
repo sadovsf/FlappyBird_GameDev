@@ -99,9 +99,12 @@ func _on_bird_hit():
 	%GUI.on_game_over()
 	$ScoreTimer.stop()
 	$Bird.process_mode = Node.PROCESS_MODE_DISABLED
+	$AudioDeath.play(0.25)
+	$AudioBackground.stop()
 
 
 func _on_gui_restart_game():
 	$Bird.teleport(self._initial_bird_pos)
 	self.start_game()
+	$AudioBackground.play()
 	

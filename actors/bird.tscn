@@ -1,7 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://b5166fy40wm1c"]
+[gd_scene load_steps=8 format=3 uid="uid://b5166fy40wm1c"]
 
 [ext_resource type="Script" path="res://actors/bird.gd" id="1_djyno"]
 [ext_resource type="Texture2D" uid="uid://bunting30s0xm" path="res://assets/sprites/bluebird-midflap.png" id="1_g6tvj"]
+[ext_resource type="Texture2D" uid="uid://bfmvghy4ku5dh" path="res://assets/sprites/bluebird-upflap.png" id="3_h22ae"]
+[ext_resource type="Texture2D" uid="uid://rqcwdh4r6kkm" path="res://assets/sprites/bluebird-downflap.png" id="4_1exin"]
+[ext_resource type="AudioStream" uid="uid://j8bmtp6xvu6b" path="res://assets/audio/wing.ogg" id="5_ve3e4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_aqeuh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_h22ae")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_h22ae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_g6tvj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1exin")
+}],
+"loop": false,
+"name": &"flap",
+"speed": 15.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_keqql"]
 radius = 12.0
@@ -12,13 +40,19 @@ contact_monitor = true
 max_contacts_reported = 5
 script = ExtResource("1_djyno")
 
-[node name="sprite" type="Sprite2D" parent="."]
-texture = ExtResource("1_g6tvj")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_aqeuh")
+animation = &"flap"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_keqql")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
+[node name="FlapAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ve3e4")
+volume_db = -10.0
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_sprite_animation_finished"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
