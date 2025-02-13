@@ -32,8 +32,8 @@ func spawn_pipe(speed :int, hole_y_offset :int, hole_height :int):
 	# Instancovat nové trubky (vrchní a spodní)
 	var new_pipe_node_bottom = _pipe_scene.instantiate()
 	var new_pipe_node_top = _pipe_scene.instantiate()
-	new_pipe_node_bottom.speed = -game_speed
-	new_pipe_node_top.speed = -game_speed
+	new_pipe_node_bottom.speed = speed
+	new_pipe_node_top.speed = speed
 	
 	# Předcachování více krát použité proměnné.
 	@warning_ignore("integer_division")
@@ -62,5 +62,5 @@ func _on_pipe_build_timer_timeout():
 
 func _on_game_diff_timer_timeout():
 	print("Difficulty increased")
-	_pipe_hole_size = clamp(_pipe_hole_size, 20, _pipe_hole_size - 10)
+	_pipe_hole_size = max(_pipe_hole_size - 10, 50)
 	game_speed += 20
