@@ -23,3 +23,9 @@ region_rect = Rect2(0, 30, 52, 290)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 304.5)
 shape = SubResource("RectangleShape2D_awvyp")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1, 303.5)
+scale = Vector2(3.1, 31.35)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
